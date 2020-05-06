@@ -1,14 +1,8 @@
-from flask import Flask, render_template, url_for, flash, redirect
+from flask import render_template, url_for, flash, redirect
 
-# Make use of variables in .env file within the app
-from environs import Env
-import os
-env = Env()
-env.read_env()
-from forms import RegistrationForm, LoginForm, ForgotPasswordForm, ResetPasswordForm
-
-app = Flask(__name__)
-app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY")
+from wallet import app
+from wallet.models import User, Transaction
+from wallet.forms import RegistrationForm, LoginForm, ForgotPasswordForm, ResetPasswordForm
 
 @app.route("/")
 def index():
@@ -45,6 +39,3 @@ def forgot_password():
 def reset_password():
 	form = ResetPasswordForm()
 	return render_template('reset_password.html', title='Reset Password', form = form)
-
-if __name__ == '__main__':
-	app.run(debug=True)
