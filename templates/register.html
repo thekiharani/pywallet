@@ -1,0 +1,102 @@
+<!-- extend master layout -->
+{% extends 'layouts/master.html' %}
+
+<!-- child content -->
+{% block body %}
+	<div class="row my-5">
+		<div class="col-sm-8 col-md-6 mx-auto">
+			<div class="card">
+				<p class="h3 card-header text-center">{{ title }}</p>
+				<div class="card-body">
+					<!-- include flash messages -->
+					{% include 'layouts/_messages.html' %}
+
+					<form method="POST" action="">
+						<!-- csrf protection -->
+						{{ form.hidden_tag() }}
+						<!-- name field -->
+						<div class="form-group">
+							{{ form.name.label(class="form-control-label") }}
+							{% if form.name.errors %}
+								{{ form.name(class="form-control is-invalid") }}
+								<div class="invalid-feedback">
+									{% for error in form.name.errors %}
+										<span>{{ error }}</span>
+									{% endfor %}
+								</div>
+							{% else %}
+								{{ form.name(class="form-control") }}
+							{% endif %}
+						</div>
+						<!-- email field -->
+						<div class="form-group">
+							{{ form.email.label(class="form-control-label") }}
+							{{ form.email.label(class="form-control-label") }}
+							{% if form.email.errors %}
+								{{ form.email(class="form-control is-invalid") }}
+								<div class="invalid-feedback">
+									{% for error in form.email.errors %}
+										<span>{{ error }}</span>
+									{% endfor %}
+								</div>
+							{% else %}
+								{{ form.email(class="form-control") }}
+							{% endif %}
+						</div>
+						<!-- phone field -->
+						<div class="form-group">
+							{{ form.phone.label(class="form-control-label") }}
+							{% if form.phone.errors %}
+								{{ form.phone(class="form-control is-invalid") }}
+								<div class="invalid-feedback">
+									{% for error in form.phone.errors %}
+										<span>{{ error }}</span>
+									{% endfor %}
+								</div>
+							{% else %}
+								{{ form.phone(class="form-control") }}
+								{{ form.recaptcha }}
+							{% endif %}
+						</div>
+						<!-- password field -->
+						<div class="form-group">
+							{{ form.password.label(class="form-control-label") }}
+							{% if form.password.errors %}
+								{{ form.password(class="form-control is-invalid") }}
+								<div class="invalid-feedback">
+									{% for error in form.password.errors %}
+										<span>{{ error }}</span>
+									{% endfor %}
+								</div>
+							{% else %}
+								{{ form.password(class="form-control") }}
+							{% endif %}
+						</div>
+						<!-- password confirmation field -->
+						<div class="form-group">
+							{{ form.confirm_password.label(class="form-control-label") }}
+							{% if form.confirm_password.errors %}
+								{{ form.confirm_password(class="form-control is-invalid") }}
+								<div class="invalid-feedback">
+									{% for error in form.confirm_password.errors %}
+										<span>{{ error }}</span>
+									{% endfor %}
+								</div>
+							{% else %}
+								{{ form.confirm_password(class="form-control") }}
+							{% endif %}
+						</div>
+						<!-- submit button -->
+						<div class="form-group">
+							{{ form.submit(class="btn btn-primary btn-block") }}
+						</div>
+					</form>
+				</div>
+				<div class="card-footer">
+					<a href="{{ url_for('login') }}" class="btn btn-success btn-block">Already have an Account? Login</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock body %}
