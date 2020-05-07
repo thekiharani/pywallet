@@ -3,15 +3,87 @@
 
 <!-- child content -->
 {% block body %}
-	<!-- include flash messages -->
-	{% include 'layouts/_messages.html' %}
+	
 
-	<h1>Welcome to myWallet</h1>
-	<p>Welcome Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-	quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-	consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-	cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-	proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+	<div class="row my-5">
+		<div class="col-md-8 mx-auto">
+			{% if current_user.is_authenticated %}
+			<p class="h2 card-header text-center">Account Summary</p>
+			<div class="card">
+				<p class="h1 card-header text-center">Account Balance: <strong>KSH {{ current_user.balance }}</strong></p>
+				<div class="card-body">
+					<!-- include flash messages -->
+					{% include 'layouts/_messages.html' %}
+
+					<div class="text-right">
+						<a href="{{ url_for('send_money') }}" class=" btn btn-info btn-lg">Send Money</a>
+					</div>
+					<p class="h2">Transaction History</p> <hr>
+					<p class="h3">Money Sent</p>
+					<table class="table table-bordered table-sm">
+						<thead>
+							<tr>
+								<th>Txn ID</th>
+								<th>Date</th>
+								<th>To</th>
+								<th>Amount</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% if not current_user.txns_out %}
+								<tr>
+									<td colspan="4" class="text-danger text-center">No transactions found</td>
+								</tr>
+							{% endif %}
+							{% for txn in current_user.txns_out %}
+								<tr>
+									<td>{{ txn.txn_id }}</td>
+									<td>{{ txn.timestamp.strftime('%B %-d, %Y | %H:%M') }}</td>
+									<td>{{ txn.receiver.name }}</td>
+									<td>KSH {{ txn.amount }}</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+					<hr>
+					<p class="h3">Money Received</p>
+					<table class="table table-bordered table-sm">
+						<thead>
+							<tr>
+								<th>Txn ID</th>
+								<th>Date</th>
+								<th>From</th>
+								<th>Amount</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% if not current_user.txns_in %}
+								<tr>
+									<td colspan="4" class="text-danger text-center">No transactions found</td>
+								</tr>
+							{% endif %}
+							{% for txn in current_user.txns_in %}
+								<tr>
+									<td>{{ txn.txn_id }}</td>
+									<td>{{ txn.timestamp.strftime('%B %-d, %Y | %H:%M') }}</td>
+									<td>{{ txn.sender.name }}</td>
+									<td>KSH {{ txn.amount }}</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+			{% else %}
+				<div class="jumbotron text-center">
+					<h1 class="display-4">Welcome to myWallet</h1>
+					<p class="lead">myWallent is a digital currency platform which leverages on modern technology to make all transactions cashless.</p>
+					<hr class="my-4">
+					<p>To use our services, you need to authenicate yourself so as to transact with identity</p>
+					<a class="btn btn-primary btn-lg" href="{{ url_for('login') }}" role="button">Sure, Let's do This!</a>
+				</div>
+			{% endif %}
+		</div>
+	</div>
 
 {% endblock body %}

@@ -1,0 +1,61 @@
+<!-- extend master layout -->
+{% extends 'layouts/master.html' %}
+
+<!-- child content -->
+{% block body %}
+	<div class="row my-5">
+		<div class="col-sm-8 col-md-6 mx-auto">
+			<div class="card">
+				<p class="h3 card-header text-center">{{ title }}</p>
+				<div class="card-body">
+					<!-- include flash messages -->
+					{% include 'layouts/_messages.html' %}
+
+					<form method="POST" action="">
+						<!-- csrf protection -->
+						{{ form.hidden_tag() }}
+						<!-- receiver field -->
+						<div class="form-group">
+							{{ form.receiver.label(class="form-control-label") }}
+							{% if form.receiver.errors %}
+								{{ form.receiver(class="form-control is-invalid") }}
+								<div class="invalid-feedback">
+									{% for error in form.receiver.errors %}
+										<span>{{ error }}</span>
+									{% endfor %}
+								</div>
+							{% else %}
+								{{ form.receiver(class="form-control") }}
+								{{ form.recaptcha }}
+							{% endif %}
+						</div>
+						<!-- amount field -->
+						<div class="form-group">
+							{{ form.amount.label(class="form-control-label") }}
+							{% if form.amount.errors %}
+								{{ form.amount(class="form-control is-invalid") }}
+								<div class="invalid-feedback">
+									{% for error in form.amount.errors %}
+										<span>{{ error }}</span>
+									{% endfor %}
+								</div>
+							{% else %}
+								{{ form.amount(class="form-control") }}
+							{% endif %}
+						</div>
+						<!-- submit button -->
+						<div class="form-group">
+							{{ form.submit(class="btn btn-primary btn-block") }}
+						</div>
+					</form>
+				</div>
+				<!-- quick links -->
+				<div class="card-footer">
+					<a href="{{ url_for('forgot_password') }}" class="btn btn-danger btn-block">Forgot Password?</a>
+					<a href="{{ url_for('register') }}" class="btn btn-success btn-block">Have no Account? Sign Up</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock body %}
