@@ -38,7 +38,9 @@
 							{% for txn in current_user.txns_out %}
 								<tr>
 									<td>{{ txn.txn_id }}</td>
-									<td>{{ txn.timestamp.strftime('%B %-d, %Y | %H:%M') }}</td>
+									<td>
+										{{ moment(txn.timestamp).format('Do MMMM, YYYY | h:mm a') }} ({{ moment(txn.timestamp).fromNow(refresh=True) }})
+									</td>
 									<td>{{ txn.receiver.name }}</td>
 									<td>KSH {{ txn.amount }}</td>
 								</tr>
@@ -65,7 +67,10 @@
 							{% for txn in current_user.txns_in %}
 								<tr>
 									<td>{{ txn.txn_id }}</td>
-									<td>{{ txn.timestamp.strftime('%B %-d, %Y | %H:%M') }}</td>
+									<td>
+										{{ moment(txn.timestamp).format('Do MMMM, YYYY | h:mm a') }} ({{ moment(txn.timestamp).fromNow(refresh=True) }})
+										{{ moment(txn.timestamp).format('DD/MM/YYYY') }} at {{ moment(txn.timestamp).format('h:mm a') }}
+									</td>
 									<td>{{ txn.sender.name }}</td>
 									<td>KSH {{ txn.amount }}</td>
 								</tr>
